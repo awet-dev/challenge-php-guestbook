@@ -11,29 +11,33 @@ $articles = ['Terror over london', 'Football: a useless hobby?', 'Economic crisi
 //end controller
 //start view
 
-require "PostLoader.php";
+require "Postloader.php";
 require "Post.php";
+require "post.json";
 
 if(!isset($_POST['title'])) {
     $_POST['title'] = "";
 }
-if(!isset($_POST['name'])) {
-    $_POST['name'] = "";
-}
 if(!isset($_POST['time'])) {
     $_POST['time'] = "";
+}
+if(!isset($_POST['name'])) {
+    $_POST['name'] = "";
 }
 if(!isset($_POST['message'])) {
     $_POST['message'] = "";
 }
 
-$guestbook = new Post($_POST['title'],$_POST['time'], $_POST['name'], $_POST['message']);
+$guestbook = new Post($_POST['title'], $_POST['time'], $_POST['name'], $_POST['message']);
 
 if (isset($_POST['send'])) {
-    var_dump($guestbook->getName());
-    var_dump($guestbook->getTitle());
-    var_dump($guestbook->getContent());
-    var_dump($guestbook->getDate());
+    $postArray = [];
+    $postArray['title'] = $guestbook->getTitle();
+    $postArray['time'] = $guestbook->getDate();
+    $postArray['content'] = $guestbook->getContent();
+    $postArray['name'] = $guestbook->getName();
+    $loader = new Postloader($postArray);
+    $loader->savePost();
 }
 
 ?>
