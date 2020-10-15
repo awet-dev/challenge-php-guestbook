@@ -2,7 +2,7 @@
 
 class Post {
     private string $title;
-    private DateTime $date;
+    private $date;
     private string $content;
     private string $name;
 

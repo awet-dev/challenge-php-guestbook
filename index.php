@@ -11,11 +11,30 @@ $articles = ['Terror over london', 'Football: a useless hobby?', 'Economic crisi
 //end controller
 //start view
 
-require "Postloader.php";
+require "PostLoader.php";
 require "Post.php";
 
-if(!isset($_POST['']))
+if(!isset($_POST['title'])) {
+    $_POST['title'] = "";
+}
+if(!isset($_POST['name'])) {
+    $_POST['name'] = "";
+}
+if(!isset($_POST['time'])) {
+    $_POST['time'] = "";
+}
+if(!isset($_POST['message'])) {
+    $_POST['message'] = "";
+}
 
+$guestbook = new Post($_POST['title'],$_POST['time'], $_POST['name'], $_POST['message']);
+
+if (isset($_POST['send'])) {
+    var_dump($guestbook->getName());
+    var_dump($guestbook->getTitle());
+    var_dump($guestbook->getContent());
+    var_dump($guestbook->getDate());
+}
 
 ?>
 
@@ -43,7 +62,7 @@ if(!isset($_POST['']))
 <form action="index.php" method="post">
     <div class="form-row">
         <div class="form-group col-md-6">
-            <input name="name" type="email" class="form-control" id="inputEmail4" placeholder="Guest Name">
+            <input name="name" type="text" class="form-control" id="inputEmail4" placeholder="Guest Name">
         </div>
         <div class="form-group col-md-6">
             <input name="time" type="date" class="form-control" id="inputPassword4" placeholder="Time">
