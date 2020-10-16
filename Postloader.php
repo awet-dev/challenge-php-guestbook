@@ -6,6 +6,7 @@ class Postloader {
 
     function __construct ($title, $time, $content, $name) {
         $this->post = array('title' => $title, 'time' => $time, 'content' => $content, 'name' => $name);
+        $this->saveData();
     }
 
     function getData() {
