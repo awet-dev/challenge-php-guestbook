@@ -6,9 +6,8 @@ class Post {
     private string $content;
     private string $name;
 
-    function __construct ($title,$date, $content, $name) {
+    function __construct ($title, $content, $name) {
         $this->title = $title;
-        $this->date = $date;
         $this->content = $content;
         $this->name = $name;
     }
@@ -16,7 +15,10 @@ class Post {
     function getTitle () {
         return $this->title;
     }
-    function getDate () {
+    function getDate ($time) {
+        $this->date = $time;
+    }
+    function returnDate () {
         return $this->date;
     }
     function getContent () {

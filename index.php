@@ -18,9 +18,7 @@ require "post.json";
 if(!isset($_POST['title'])) {
     $_POST['title'] = "";
 }
-if(!isset($_POST['time'])) {
-    $_POST['time'] = "";
-}
+
 if(!isset($_POST['name'])) {
     $_POST['name'] = "";
 }
@@ -29,23 +27,28 @@ if(!isset($_POST['message'])) {
     $_POST['message'] = "";
 }
 
-$guestbook = new Post($_POST['title'], $_POST['time'], $_POST['message'], $_POST['name']);
 
-session_start();
-if(!isset($_SESSION['post'])) {
-    $_SESSION['post'] = [];
-}
+$guestbook = new Post($_POST['title'], $_POST['message'], $_POST['name']);
 
 if (isset($_POST['send'])) {
     $title = $guestbook->getTitle();
-    $time = $guestbook->getDate();
+    $guestbook->getDate(date("F j, Y, g:i a"));
+    $time = $guestbook->returnDate();
     $content = $guestbook->getContent();
     $name= $guestbook->getName();
     $loader = new Postloader($title, $time, $content, $name);
-    array_push($_SESSION['post'], $loader->setData());
-    $loader->getData($_SESSION['post']);
-    $loader->savePost();
+    $loader->saveData();
 }
+//if (isset($_POST['Check Visitors'])) {
+//    if(!empty($_POST['number of visitors'])) {
+//        $fileDAta = file_get_contents("post.json");
+//        $jsonData = json_decode($fileDAta, true);
+//        $jsonData = array_slice($jsonData, 0, $_POST['number of visitors']);
+//        foreach ($jsonData as $data) {
+//            var_dump($data['name']);
+//        }
+//    }
+//}
 
 ?>
 
@@ -66,20 +69,13 @@ if (isset($_POST['send'])) {
     <a class="navbar-brand" href="#">Guest Book</a>
     <form action="index.php" method="post" class="form-inline my-2 my-lg-0">
         <input name="number of visitors" class="form-control mr-sm-2" type="tel" placeholder="Number Of Visitor" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Check Visitors</button>
+        <input name="Check Visitors" class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Check Visitors">
     </form>
 </nav>
 
 <form action="index.php" method="post">
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <input name="name" type="text" class="form-control" id="inputEmail4" placeholder="Guest Name">
-        </div>
-        <div class="form-group col-md-6">
-            <input name="time" type="date" class="form-control" id="inputPassword4" placeholder="Time">
-        </div>
-    </div>
     <div class="form-group">
+        <input name="name" type="text" class="form-control mb-2" id="inputEmail4" placeholder="Guest Name">
         <input name="title" type="text" class="form-control mb-2" id="inputZip" placeholder="Title">
         <textarea name="message" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Write your message here please!"></textarea>
     </div>
