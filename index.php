@@ -21,13 +21,15 @@ if(!isset($_POST['message'])) {
 }
 
 if (isset($_POST['send'])) {
-    $guestbook = new Post($_POST['title'], $_POST['message'], $_POST['name']);
-    $title = $guestbook->getTitle();
-    $guestbook->getDate(date("F j, Y, g:i a"));
-    $time = $guestbook->returnDate();
-    $content = $guestbook->getContent();
-    $name= $guestbook->getName();
-    $loader = new Postloader($title, $time, $content, $name);
+    if ($_POST['title'] && $_POST['message'] && $_POST['name']) {
+        $guestbook = new Post($_POST['title'], $_POST['message'], $_POST['name']);
+        $title = $guestbook->getTitle();
+        $guestbook->getDate(date("F j, Y, g:i a"));
+        $time = $guestbook->returnDate();
+        $content = $guestbook->getContent();
+        $name= $guestbook->getName();
+        $loader = new Postloader($title, $time, $content, $name);
+    }
 }
 
 function retrieveData() {
