@@ -41,15 +41,21 @@ function retrieveData() {
 }
 
 $display = array();
-$postData = retrieveData();
+function displayPost () {
+    $postData = retrieveData();
+    if ($postData) {
+        $postData = array_slice($postData, -20, 20);
+        return array_reverse($postData);
+    }
+}
+if (displayPost()) {
+    $display = displayPost();
+}
 if (isset($_POST["Check"])) {
-    if (isset($_POST['visitors']) && is_numeric($_POST['visitors']) && $postData) {
-        $display = array_slice($postData, -$_POST['visitors'], $_POST['visitors']);
+    if (isset($_POST['visitors']) && is_numeric($_POST['visitors']) && $display) {
+        $display = array_slice($display, -$_POST['visitors'], $_POST['visitors']);
         $display = array_reverse($display);
     }
-} elseif (isset($_POST['send'])) {
-    $display = array_slice($postData, -20, 20);
-    $display = array_reverse($display);
 }
 
 ?>
@@ -75,12 +81,12 @@ if (isset($_POST["Check"])) {
 </nav>
 
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-    <div class="form-group">
+    <div class="form-group col">
         <input name="name" type="text" class="form-control mb-2" id="inputEmail4" placeholder="Guest Name">
         <input name="title" type="text" class="form-control mb-2" id="inputZip" placeholder="Title">
         <textarea name="message" class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Write your message here please!"></textarea>
     </div>
-    <input name="send" type="submit" class="btn btn-primary" value="Send"/>
+    <input name="send" type="submit" class="btn btn-primary" value="Submit">
 </form>
     <?php foreach ($display as $post)  :?>
         <div class='card'>
