@@ -90,15 +90,17 @@ if (isset($_POST["Check"])) {
     </div>
     <input name="send" type="submit" class="btn btn-primary" value="Submit">
 </form>
-    <?php foreach ($display as $post)  :?>
-        <div class='card'>
-            <div class='card-body'>
-                <h4 class='card-title'><?php echo "Title: ".$post["title"]?></h4>
-                <h6 class='card-subtitle mb-2 text-muted'><?php echo "Name: ".$post["name"] ."  visit at: " .$post["time"]?></h6>
-                <p class='card-text'><?php echo "Comments: ".$post["content"]?></p>
+    <div class="row">
+        <?php foreach ($display as $post)  :?>
+            <div class='card col-4'>
+                <div class='card-body'>
+                    <h4 class='card-title'><?php echo "Title: ".$post["title"]?></h4>
+                    <h6 class='card-subtitle mb-2 text-muted'><?php echo "Name: ".$post["name"] ."  visit at: " .$post["time"]?></h6>
+                    <p class='card-text'><?php echo "Comments: ".$post["content"]?></p>
+                </div>
             </div>
-        </div>
-    <?php endforeach;?>
+        <?php endforeach;?>
+    </div>
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
