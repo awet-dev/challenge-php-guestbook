@@ -24,19 +24,26 @@ if(!isset($_POST['time'])) {
 if(!isset($_POST['name'])) {
     $_POST['name'] = "";
 }
+
 if(!isset($_POST['message'])) {
     $_POST['message'] = "";
 }
 
-$guestbook = new Post($_POST['title'], $_POST['time'], $_POST['name'], $_POST['message']);
+$guestbook = new Post($_POST['title'], $_POST['time'], $_POST['message'], $_POST['name']);
+
+session_start();
+if(!isset($_SESSION['post'])) {
+    $_SESSION['post'] = [];
+}
 
 if (isset($_POST['send'])) {
-    $postArray = [];
-    $postArray['title'] = $guestbook->getTitle();
-    $postArray['time'] = $guestbook->getDate();
-    $postArray['content'] = $guestbook->getContent();
-    $postArray['name'] = $guestbook->getName();
-    $loader = new Postloader($postArray);
+    $title = $guestbook->getTitle();
+    $time = $guestbook->getDate();
+    $content = $guestbook->getContent();
+    $name= $guestbook->getName();
+    $loader = new Postloader($title, $time, $content, $name);
+    array_push($_SESSION['post'], $loader->setData());
+    $loader->getData($_SESSION['post']);
     $loader->savePost();
 }
 
