@@ -5,21 +5,11 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 
+// require the files
 require "Postloader.php";
 require "Post.php";
 
-if(!isset($_POST['title'])) {
-    $_POST['title'] = "";
-}
-
-if(!isset($_POST['name'])) {
-    $_POST['name'] = "";
-}
-
-if(!isset($_POST['message'])) {
-    $_POST['message'] = "";
-}
-
+// listen to the send click
 if (isset($_POST['send'])) {
     if ($_POST['title'] && $_POST['message'] && $_POST['name']) {
         $guestbook = new Post($_POST['title'], $_POST['message'], $_POST['name']);
@@ -32,27 +22,24 @@ if (isset($_POST['send'])) {
     }
 }
 
+// retrieve the data from json file
 function retrieveData() {
-    if (!empty(file_get_contents("post.json"))) {
+    if (file_get_contents("post.json")) {
         $data = file_get_contents("post.json");
         $data = json_decode($data, true);
-        return $data;
-    } else {
-        return 0;
+        if (isset($data)) {
+            $data = array_slice($data, -20, 20);
+            return array_reverse($data);
+        }
     }
 }
 
+// save the data from json file
 $display = array();
-function displayPost () {
-    $postData = retrieveData();
-    if ($postData) {
-        $postData = array_slice($postData, -20, 20);
-        return array_reverse($postData);
-    }
+if (retrieveData()) {
+    $display = retrieveData();
 }
-if (displayPost()) {
-    $display = displayPost();
-}
+// list to the check button to display as much number of visitors comment
 if (isset($_POST["Check"])) {
     if (isset($_POST['visitors']) && is_numeric($_POST['visitors']) && $display) {
         $display = array_slice($display, -$_POST['visitors'], $_POST['visitors']);
